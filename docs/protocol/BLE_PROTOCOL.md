@@ -607,6 +607,7 @@ Contributor-validated Basilisk V3 Pro 35K Phantom Green Edition Bluetooth (vendo
 - the device uses the Basilisk V3 Pro Bluetooth key catalog and 8-byte notify header; each fresh connection first emits an unsolicited `01 00 00 00 00 00 00 03` notify that request-ID matching ignores
 - metadata reads `03 84 <target> 00` return status `0x03` on targets `0`, `1`, and `2` (with or without the `offset,length` read request), so the mapped profile CRUD transaction is unavailable and OpenSnek edits through the live keys (`0B 04 01 00`, `08 04 01 <slot>`, `10 03 00 <led>`, `10 05 01 <led>`)
 - untouched stored banks return the compact clutch block `06 01 05 01 90 01 90` for slot `0x0F` (the Basilisk V3 Pro reads `06 05 05 01 90 01 90`) and the short wheel-tilt blocks `0e 01 68/69 00 14 00 00`
+- peripheral selection runs before reusing a ready connection; overlapping V3 Pro/35K names cannot reuse the other model, and an absent requested model waits for reconnection instead of falling back to another mouse
 - the zone list `10 80 00 01` still returns `04 01 0a`, but this edition has no logo LED; OpenSnek only drives `0x01` (scroll wheel) and `0x0A` (underglow)
 - live writes do not persist: after a power cycle the device restores its own lighting effect, brightness, and DPI table
 - see `captures/ble/2026-10-13-basilisk-v3-pro-35k/`
