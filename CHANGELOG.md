@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [Unreleased]
+
+### Fixed
+- Fixed the lighting Zones picker ("All Zones" / "Individual Zones") stretching and snapping back while dragging the brightness slider or during other lighting card updates.
+
 ## [1.4.0]
 
 ### Added
