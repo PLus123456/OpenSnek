@@ -170,7 +170,9 @@ public final class BLEVendorTransportClient: NSObject, @unchecked Sendable {
     private func preferredPeripheral(from peripherals: [CBPeripheral]) -> CBPeripheral? {
         guard let preferredPeripheralName, !preferredPeripheralName.isEmpty else { return peripherals.first }
 
-        return peripherals.first(where: { peripheralMatchesPreference($0) }) ?? peripherals.first
+        // "BSK V3 PRO" loosely matches "BSKV3P 35K"; pick the most specific name when both mice are connected.
+        let ranked = peripherals.compactMap { peripheral in BluetoothNameMatcher.matchRank(peripheral.name, preferredPeripheralName).map { (peripheral, $0) } }
+        return ranked.max(by: { $0.1 < $1.1 })?.0 ?? peripherals.first
     }
 
     private func peripheralMatchesPreference(_ peripheral: CBPeripheral) -> Bool {
